@@ -82,30 +82,32 @@
 
 ## 🌐 網路與系統架構
 
-Client Devices
-(Mac / iPhone / Windows)
-        |
-        |---- Tailscale / SSH
-        |---- Cloudflare Tunnel / Domain
-        |
-Internet
-        |
-Modem (Bridge Mode)
-        |
-ASUS Router (Public IP)
-        |
-NAS Server (Ubuntu Server 24)
-        |
-        |---- Docker / Docker Compose
-        |       |---- Nextcloud
-        |       |---- Pi-hole
-        |       |---- Xray / Reality
-        |       |---- Home Assistant
-        |
-        |---- mdadm RAID1 Storage
-        |
-        |---- APC UPS Protection
+graph TD
+    subgraph External_Access
+        C1[Mac / iPhone / Windows]
+        C1 -- Tailscale / SSH --> NAS
+        C1 -- Cloudflare Tunnel --> NAS
+    end
 
+    subgraph Home_Network
+        R[ASUS Router - Public IP] --> NAS
+        M[Modem - Bridge Mode] --> R
+    end
+
+    subgraph NAS_Server_N100
+        NAS[Ubuntu Server 24]
+        
+        subgraph Docker_Runtime
+            D1[Nextcloud]
+            D2[Pi-hole]
+            D3[Home Assistant]
+            D4[Xray / Reality]
+        end
+        
+        NAS --> Docker_Runtime
+        NAS --> RAID1[(mdadm RAID1 Storage)]
+        NAS --- UPS[APC UPS Protection]
+    end
 ---
 
 ## 🔐 核心功能
@@ -144,24 +146,34 @@ Xray / Reality
 
 ## 🧩 工程問題與解決方式
 問題一：如何在有限預算下建置可長期使用的家用伺服器？
-挑戰：商用 NAS 成本較高，對學生而言投資門檻較大；若完全依賴商業雲端服務，則長期成本與資料掌控度也未必理想。
-解法：選擇 N100 平台搭配二手 WD Red 硬碟自行組裝，兼顧低功耗、低成本與足夠的服務承載能力。此方式不僅降低建置成本，也讓我能自行掌握硬體規格、儲存策略與系統架構。
+挑戰：
+商用 NAS 成本較高，對學生而言投資門檻較大；若完全依賴商業雲端服務，則長期成本與資料掌控度也未必理想。
+解法：
+選擇 N100 平台搭配二手 WD Red 硬碟自行組裝，兼顧低功耗、低成本與足夠的服務承載能力。此方式不僅降低建置成本，也讓我能自行掌握硬體規格、儲存策略與系統架構。
 
 問題二：如何兼顧資料安全與長期穩定性？
-挑戰：家用伺服器若作為實際備份與同步中心，必須考慮硬碟故障與突然斷電等風險。
-解法：透過 mdadm RAID1 建立資料鏡像備援，並整合 APC UPS 作為供電保護機制，從儲存層與供電層同時提升系統穩定性，使系統更接近可持續運作的基礎設施，而不只是能開機使用的主機。
+挑戰：
+家用伺服器若作為實際備份與同步中心，必須考慮硬碟故障與突然斷電等風險。
+解法：
+透過 mdadm RAID1 建立資料鏡像備援，並整合 APC UPS 作為供電保護機制，從儲存層與供電層同時提升系統穩定性，使系統更接近可持續運作的基礎設施，而不只是能開機使用的主機。
 
 問題三：如何讓遠端連線既穩定又實用？
-挑戰：我曾嘗試使用 Xray / Reality 自建 VPN / Proxy 架構，希望在跨境或外部網路環境下回連台灣網路；然而在實際情境中，部分台灣 IP 在中國地區可能受到封鎖，使理論可行與實務穩定之間存在差距。
-解法：最終在日常使用上改以 Tailscale 作為主要遠端方案，使遠端 SSH、設備互聯與管理流程更穩定，也降低自建 VPN 的維護複雜度；同時保留 Xray / Reality 作為技術探索與網路實驗成果。
+挑戰：
+我曾嘗試使用 Xray / Reality 自建 VPN / Proxy 架構，希望在跨境或外部網路環境下回連台灣網路；然而在實際情境中，部分台灣 IP 在中國地區可能受到封鎖，使理論可行與實務穩定之間存在差距。
+解法：
+最終在日常使用上改以 Tailscale 作為主要遠端方案，使遠端 SSH、設備互聯與管理流程更穩定，也降低自建 VPN 的維護複雜度；同時保留 Xray / Reality 作為技術探索與網路實驗成果。
 
 問題四：如何讓 NAS 不只是儲存設備，而是實際可用的家庭系統中樞？
-挑戰：許多 NAS 專案最後只停留在「可以存檔」，若缺乏服務整合與實際使用情境，系統價值有限。
-解法：我將 NAS 擴充為：個人雲端備份中心多裝置同步平台家庭共享資料空間遠端存取中樞Docker 自架服務實驗環境這使系統真正融入日常學習與生活，而不是只是一台閒置設備。
+挑戰：
+許多 NAS 專案最後只停留在「可以存檔」，若缺乏服務整合與實際使用情境，系統價值有限。
+解法：
+我將 NAS 擴充為：個人雲端備份中心多裝置同步平台家庭共享資料空間遠端存取中樞Docker 自架服務實驗環境這使系統真正融入日常學習與生活，而不是只是一台閒置設備。
 
 問題五：如何保留未來擴充性？
-挑戰：原先曾規劃將本地 AI 模型與智慧家庭控制功能整合到 NAS / HomePod 架構中，但畢業後花了一年時間準備研究所筆試，因此相關延伸開發暫時停擺。
-解法：在系統設計上仍保留未來擴充方向，包括：本地 AI 模型部署更高效能 GPU Server 串接智慧家庭控制中樞監控與儀表板系統也就是說，這套 NAS 架構並非一次性作品，而是一個可持續成長的基礎平台。
+挑戰：
+原先曾規劃將本地 AI 模型與智慧家庭控制功能整合到 NAS / HomePod 架構中，但畢業後花了一年時間準備研究所筆試，因此相關延伸開發暫時停擺。
+解法：
+在系統設計上仍保留未來擴充方向，包括：本地 AI 模型部署更高效能 GPU Server 串接智慧家庭控制中樞監控與儀表板系統也就是說，這套 NAS 架構並非一次性作品，而是一個可持續成長的基礎平台。
 
 ##📈 專案成果
 透過本專案，我實際完成了以下成果：
