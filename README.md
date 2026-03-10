@@ -82,32 +82,6 @@
 
 ## 🌐 網路與系統架構
 
-graph TD
-    subgraph External_Access
-        C1[Mac / iPhone / Windows]
-        C1 -- Tailscale / SSH --> NAS
-        C1 -- Cloudflare Tunnel --> NAS
-    end
-
-    subgraph Home_Network
-        R[ASUS Router - Public IP] --> NAS
-        M[Modem - Bridge Mode] --> R
-    end
-
-    subgraph NAS_Server_N100
-        NAS[Ubuntu Server 24]
-        
-        subgraph Docker_Runtime
-            D1[Nextcloud]
-            D2[Pi-hole]
-            D3[Home Assistant]
-            D4[Xray / Reality]
-        end
-        
-        NAS --> Docker_Runtime
-        NAS --> RAID1[(mdadm RAID1 Storage)]
-        NAS --- UPS[APC UPS Protection]
-    end
 ---
 
 ## 🔐 核心功能
