@@ -83,7 +83,25 @@
 ---
 
 ## 網路與系統架構
+本系統採用 Modem Bridge + Router Public IP 架構，
+由 ASUS Router 負責內網管理，
+NAS 作為家庭網路中的核心伺服器節點，
+負責儲存、容器服務、遠端連線與家庭雲端。
 
+外部存取透過 Cloudflare Tunnel 與 Tailscale 建立安全通道，
+避免直接暴露內網服務，提高安全性與穩定性。
+
+系統中各節點角色如下：
+
+- Modem：Bridge mode
+- Router：Public IP / LAN 管理
+- NAS：Storage + Docker + Cloud
+- Docker：Nextcloud / Pi-hole / HomeAssistant / Xray
+- Cloudflare Tunnel：外部 HTTPS 入口
+- Tailscale：遠端管理
+- Windows PC：高效能運算主機
+- Mac / Phone：遠端存取
+  
 ---
 
 ## 核心功能
