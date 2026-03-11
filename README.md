@@ -52,9 +52,10 @@
 
 | 項目 | 規格 |
 |------|------|
-| 主機平台 | Intel N100 Mini PC |
+| 主機平台 | Intel N100 ITX |
 | 記憶體 | 16GB RAM |
 | 儲存裝置 | 2 × 2TB WD Red |
+| 電源供應器 | 台達 250 W Flex 1U |
 | RAID | mdadm RAID1 |
 | UPS | APC UPS |
 | 網路 | Gigabit LAN |
