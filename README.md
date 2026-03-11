@@ -101,7 +101,34 @@ NAS 作為家庭網路中的核心伺服器節點，
 - Tailscale：遠端管理
 - Windows PC：高效能運算主機
 - Mac / Phone：遠端存取
-  
+
+```mermaid
+flowchart TD
+    A[Internet] --> B[Modem<br/>Bridge Mode]
+    B --> C[ASUS Router<br/>Public IP / LAN]
+    C --> D[N100 NAS<br/>Ubuntu Server 24]
+
+    D --> D1[mdadm RAID1]
+    D --> D2[Docker / Compose]
+    D --> D3[Nextcloud]
+    D --> D4[Pi-hole]
+    D --> D5[Home Assistant]
+    D --> D6[Cloudflare Tunnel]
+    D --> D7[Tailscale / SSH]
+    D --> D8[Xray / Reality]
+
+    C --> E[Windows Desktop]
+    C --> F[MacBook]
+    C --> G[iPhone / iPad]
+    C --> H[Smart Home Devices]
+
+    F -. Remote Access .-> D
+    G -. Remote Access .-> D
+    E -. RDP / File Access .-> D
+
+    I[Cloudflare Domain] --> D6
+    D6 --> D
+
 ---
 
 ## 核心功能
