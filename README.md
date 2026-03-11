@@ -118,7 +118,7 @@ Home Assistant
 Xray / Reality
 透過容器化方式，系統更容易進行服務隔離、啟停控制、配置調整與後續擴充。
 ![docker](img/docker_ps.png)
-![pihole](/imgpihole.png)
+![pihole](img/pihole.png)
 
 10. 智慧家庭延伸能力
 本專案初期構想之一，是讓 NAS 作為智慧家庭延伸中樞。後續亦部署 Home Assistant，作為與 Apple Home / HomeKit 整合的實驗基礎。雖然目前尚未完全發展為完整的智慧家庭控制中樞，但整體架構已預留未來延伸空間。
