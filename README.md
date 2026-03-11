@@ -141,8 +141,6 @@ Xray / Reality
 10. 智慧家庭延伸能力
 本專案初期構想之一，是讓 NAS 作為智慧家庭延伸中樞。後續亦部署 Home Assistant，作為與 Apple Home / HomeKit 整合的實驗基礎。雖然目前尚未完全發展為完整的智慧家庭控制中樞，但整體架構已預留未來延伸空間。
 
-![docker](img/docker.png)
-
 
 ---
 
