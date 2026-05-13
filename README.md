@@ -5,6 +5,7 @@
 此專案並非單純的儲存設備建置，而是以「個人基礎設施（Personal Infrastructure）」為概念，從真實使用需求出發，實際規劃與整合 Linux Server、Networking、Docker、自架服務、資料備援、供電保護與遠端存取機制，建立一套可長期運作、可持續擴充、可實際解決問題的家用伺服器環境。
 
 ![hardware](img/nas_and_ups.jpeg)
+![structure](img/structure.png)
 
 ---
 
